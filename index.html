@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KLM Tricycles — Vente de Tricycles à Cotonou, Bénin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        klm: {
+                            green: '#1B8C3A',
+                            darkgreen: '#146B2C',
+                            lightgreen: '#22A84A',
+                            red: '#E30613',
+                            darkred: '#B8050F',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background: #020617; color: #ffffff; }
+
+        @keyframes globalFadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        body { animation: globalFadeIn 0.6s ease-out forwards; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .nav-blur {
+            backdrop-filter: blur(24px);
+            background: rgba(2, 6, 23, 0.85);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            transition: all 500ms;
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(27, 140, 58, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px -12px rgba(27, 140, 58, 0.2);
+        }
+
+        .btn-primary {
+            background: #1B8C3A;
+            box-shadow: 0 0 15px -3px rgba(27, 140, 58, 0.6);
+            transition: all 150ms;
+        }
+        .btn-primary:hover {
+            background: #22A84A;
+            box-shadow: 0 0 25px -3px rgba(27, 140, 58, 0.8);
+        }
+
+        .btn-red {
+            background: #E30613;
+            box-shadow: 0 0 15px -3px rgba(227, 6, 19, 0.5);
+            transition: all 150ms;
+        }
+        .btn-red:hover {
+            background: #FF1A28;
+            box-shadow: 0 0 25px -3px rgba(227, 6, 19, 0.7);
+        }
+
+        .btn-outline {
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 150ms;
+        }
+        .btn-outline:hover {
+            border-color: rgba(27, 140, 58, 0.5);
+            background: rgba(27, 140, 58, 0.1);
+        }
+
+        .glow-green {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            background: rgba(27, 140, 58, 0.15);
+        }
+        .glow-red {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            pointer-events: none;
+            background: rgba(227, 6, 19, 0.08);
+        }
+
+        .hero-gradient-text {
+            background: linear-gradient(to bottom right, #4ade80, #1B8C3A);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-number {
+            background: linear-gradient(to bottom right, #4ade80, #1B8C3A);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-link {
+            color: #94a3b8;
+            transition: color 150ms;
+        }
+        .nav-link:hover { color: #4ade80; }
+
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+        .mobile-menu.open { max-height: 400px; }
+
+        @keyframes ping {
+            75%, 100% { transform: scale(2); opacity: 0; }
+        }
+        .ping-dot { animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .float-anim { animation: float 3s ease-in-out infinite; }
+
+        .moto-card img {
+            transition: transform 700ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .moto-card:hover img { transform: scale(1.05); }
+
+        .price-tag {
+            background: linear-gradient(135deg, #1B8C3A, #146B2C);
+        }
+
+        .benin-stripe {
+            background: linear-gradient(90deg, #1B8C3A 33.33%, #FCD116 33.33%, #FCD116 66.66%, #E30613 66.66%);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            background: rgba(27, 140, 58, 0.15);
+            border: 1px solid rgba(27, 140, 58, 0.3);
+            color: #4ade80;
+            font-size: 14px;
+            font-weight: 400;
+            backdrop-filter: blur(12px);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease-out;
+            z-index: 100;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+
+        /* Tricycle image styling for transparent backgrounds */
+        .tricycle-img-hero {
+            object-fit: contain;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
+        }
+        .tricycle-img-card {
+            object-fit: contain;
+            padding: 1.5rem;
+            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.4));
+        }
+        .tricycle-img-gallery {
+            object-fit: contain;
+            padding: 2rem;
+            filter: drop-shadow(0 10px 25px rgba(0,0,0,0.4));
+            background: linear-gradient(135deg, rgba(27,140,58,0.05), rgba(2,6,23,0.8));
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1B8C3A; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #22A84A; }
+    </style>
+</head>
+<body>
+
+    <!-- Bénin color stripe top -->
+    <div class="benin-stripe h-1 fixed top-0 left-0 right-0 z-[60]"></div>
+
+    <!-- NAVIGATION -->
+    <nav class="nav-blur fixed top-1 left-0 right-0 z-50 h-16 flex items-center">
+        <div class="max-w-7xl mx-auto w-full px-4 md:px-6 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-klm-green/10 border border-klm-green/30 flex items-center justify-center"
+                     style="box-shadow: 0 0 12px rgba(27, 140, 58, 0.4);">
+                    <span class="text-klm-green font-extrabold text-lg tracking-tight">K</span>
+                    <span class="text-white font-extrabold text-lg tracking-tight">LM</span>
+                </div>
+                <div class="hidden sm:block">
+                    <span class="text-sm font-semibold tracking-wide text-white">KLM</span>
+                    <span class="text-[10px] text-slate-500 block -mt-0.5 tracking-widest uppercase">Tricycles Bénin</span>
+                </div>
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#modeles" class="nav-link text-sm font-light tracking-wide">Modèles</a>
+                <a href="#avantages" class="nav-link text-sm font-light tracking-wide">Avantages</a>
+                <a href="#galerie" class="nav-link text-sm font-light tracking-wide">Galerie</a>
+                <a href="#apropos" class="nav-link text-sm font-light tracking-wide">À propos</a>
+                <a href="#contact" class="btn-primary text-sm font-medium px-5 py-2 rounded-lg text-white">Nous contacter</a>
+            </div>
+            <button id="menuBtn" class="md:hidden text-slate-400 hover:text-white transition-colors">
+                <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <div id="mobileMenu" class="mobile-menu absolute top-16 left-0 right-0 nav-blur md:hidden">
+            <div class="px-4 py-4 flex flex-col gap-4">
+                <a href="#modeles" class="nav-link text-sm font-light tracking-wide py-2">Modèles</a>
+                <a href="#avantages" class="nav-link text-sm font-light tracking-wide py-2">Avantages</a>
+                <a href="#galerie" class="nav-link text-sm font-light tracking-wide py-2">Galerie</a>
+                <a href="#apropos" class="nav-link text-sm font-light tracking-wide py-2">À propos</a>
+                <a href="#contact" class="btn-primary text-sm font-medium px-5 py-2.5 rounded-lg text-center text-white">Nous contacter</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== HERO ==================== -->
+    <section class="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
+        <div class="glow-green w-[600px] h-[600px] -top-40 -right-40" style="position:absolute;"></div>
+        <div class="glow-red w-[300px] h-[300px] bottom-0 -left-20" style="position:absolute;"></div>
+
+        <div class="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div class="reveal inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-klm-green/20 bg-klm-green/5 mb-8">
+                        <span class="relative flex h-2 w-2">
+                            <span class="ping-dot absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                        </span>
+                        <span class="text-xs font-medium text-green-400/80 tracking-wider uppercase">Showroom ouvert à Cotonou</span>
+                    </div>
+
+                    <h1 class="reveal text-4xl md:text-5xl lg:text-6xl font-extralight leading-[1.1] tracking-tight mb-6" style="transition-delay: 100ms;">
+                        Les meilleurs<br>
+                        <span class="hero-gradient-text font-semibold">tricycles</span> du<br>
+                        Bénin
+                    </h1>
+
+                    <p class="reveal text-sm md:text-base text-slate-400 font-light max-w-lg mb-8 leading-relaxed tracking-wide" style="transition-delay: 200ms;">
+                        Importateur direct de tricycles de qualité. Prix usine, livraison à Cotonou et dans tout le Bénin.
+                        Le partenaire idéal pour votre activité de transport.
+                    </p>
+
+                    <div class="reveal flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-10" style="transition-delay: 300ms;">
+                        <a href="#modeles" class="btn-primary text-sm font-medium px-8 py-3 rounded-lg text-white inline-flex items-center gap-2">
+                            Voir les modèles
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                        <a href="tel:+22990000000" class="btn-outline text-sm font-medium px-8 py-3 rounded-lg text-slate-300 inline-flex items-center gap-2">
+                            <i data-lucide="phone" class="w-4 h-4"></i>
+                            +229 90 00 00 00
+                        </a>
+                    </div>
+
+                    <div class="reveal flex flex-wrap gap-6" style="transition-delay: 400ms;">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="shield-check" class="w-4 h-4 text-klm-green"></i>
+                            <span class="text-xs text-slate-500 font-light">Garantie 6 mois</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="truck" class="w-4 h-4 text-klm-green"></i>
+                            <span class="text-xs text-slate-500 font-light">Livraison partout</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="wrench" class="w-4 h-4 text-klm-green"></i>
+                            <span class="text-xs text-slate-500 font-light">Pièces détachées</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HERO IMAGE — Tricycle blanc -->
+                <div class="reveal relative" style="transition-delay: 200ms;">
+                    <div class="rounded-2xl border border-white/10 relative overflow-hidden"
+                         style="background: linear-gradient(145deg, rgba(27,140,58,0.08), rgba(2,6,23,0.9)); box-shadow: 0 20px 60px -15px rgba(27, 140, 58, 0.2);">
+                        <img src="https://z-cdn-media.chatglm.cn/files/da3f90a9-68a7-4fda-855f-21d97c9fcacb.png?auth_key=1882792047-a675fe2f2e0c4387a40b2273cd80a99e-0-f269d8e5f9c2441b0fd333cc914a352c" 
+                             alt="Tricycle blanc KLM — Cotonou Bénin"
+                             class="w-full h-72 md:h-96 lg:h-[440px] tricycle-img-hero">
+                        <div class="absolute bottom-4 left-4 price-tag px-4 py-2 rounded-lg">
+                            <span class="text-[10px] text-green-200/80 uppercase tracking-wider block">À partir de</span>
+                            <span class="text-lg font-bold text-white">850 000 FCFA</span>
+                        </div>
+                    </div>
+                    <div class="absolute -top-3 -right-3 md:top-4 md:-right-4 bg-slate-900/90 border border-klm-green/30 backdrop-blur-md rounded-xl px-4 py-3 float-anim"
+                         style="box-shadow: 0 8px 30px -8px rgba(27, 140, 58, 0.3);">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-lg bg-klm-green/20 flex items-center justify-center">
+                                <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs font-semibold text-white">N°1 au Bénin</div>
+                                <div class="text-[10px] text-slate-500">+500 tricycles vendus</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS BAR -->
+    <section class="reveal border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+                <div class="stat-number text-3xl md:text-4xl font-extralight mb-1">500+</div>
+                <div class="text-xs text-slate-500 font-light tracking-wider uppercase">Tricycles vendus</div>
+            </div>
+            <div>
+                <div class="stat-number text-3xl md:text-4xl font-extralight mb-1">5 ans</div>
+                <div class="text-xs text-slate-500 font-light tracking-wider uppercase">Au Bénin</div>
+            </div>
+            <div>
+                <div class="stat-number text-3xl md:text-4xl font-extralight mb-1">12</div>
+                <div class="text-xs text-slate-500 font-light tracking-wider uppercase">Départements couverts</div>
+            </div>
+            <div>
+                <div class="stat-number text-3xl md:text-4xl font-extralight mb-1">97%</div>
+                <div class="text-xs text-slate-500 font-light tracking-wider uppercase">Clients satisfaits</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== MODELS ==================== -->
+    <section id="modeles" class="relative py-20 md:py-32">
+        <div class="glow-green w-[400px] h-[400px] top-1/3 right-0" style="position:absolute;"></div>
+
+        <div class="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
+            <div class="text-center mb-16">
+                <span class="reveal text-xs font-medium text-klm-green tracking-widest uppercase mb-4 block">Nos modèles</span>
+                <h2 class="reveal text-3xl md:text-4xl font-light tracking-tight mb-4" style="transition-delay: 100ms;">
+                    Choisissez votre <span class="hero-gradient-text font-semibold">tricycle</span>
+                </h2>
+                <p class="reveal text-sm text-slate-400 font-light max-w-lg mx-auto tracking-wide" style="transition-delay: 200ms;">
+                    Des modèles robustes adaptés aux routes béninoises. Chaque tricycle est inspecté avant livraison.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Model 1 — Tricycle BLU (cargo) -->
+                <div class="reveal glass-card rounded-2xl overflow-hidden" style="transition-delay: 100ms;">
+                    <div class="relative overflow-hidden" style="background: linear-gradient(145deg, rgba(59,130,246,0.06), rgba(2,6,23,0.95));">
+                        <img src="https://z-cdn-media.chatglm.cn/files/f37386be-6c4d-493a-9a9b-ea762cb345fe.jpg?auth_key=1882792047-d3973cad942448cdb278e3df202eec04-0-6281e5a441aee1e745c0c551dc42bc00" 
+                             alt="Tricycle Cargo Bleu KENTON" class="w-full h-56 tricycle-img-card">
+                        <div class="absolute top-3 right-3 bg-klm-green px-3 py-1 rounded-md">
+                            <span class="text-[10px] font-semibold text-white uppercase tracking-wider">Populaire</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-medium mb-2">Tricycle Cargo Bleu</h3>
+                        <p class="text-sm text-slate-400 font-light leading-relaxed mb-4 tracking-wide">
+                            Idéal pour le transport de marchandises. Caisse fermée robuste, moteur 200cc puissant et fiable.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-5">
+                            <span class="text-[10px] px-2 py-1 rounded-md bg-white/5 border border-white/10 text-slate-400 font-light">200cc</span>
+                            <span class="text-[10px] px-2 py-1 rounded-md bg-white/5 border border-white/10 text-slate-400 font-light">500kg</span>
+                            <span class="text-[10px] px-2 py-1 rounded-md bg-white/5 border border-white/10 text-slate-400 font-light">Caisse fermée</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-xs text-slate-500 font-light">À partir de</span>
+                                <div class="text-xl font-bold text-klm-green">850 000 <span class="text-sm font-light text-slate-500">FCFA</span></div>
+                            </div>
+                            <a href="#contact" class="btn-primary text-xs font-medium px-4 py-2 rounded-lg text-white">Commander</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Model 2 — Tricycle BLANC (passager) -->
+                <div class="reveal glass-card rounded-2xl overflow-hidden" style="transition-delay: 200ms;">
+                    <div class="relative overflow-hidden" style="background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(2,6,23,0.95));">
+                        <img src="https://z-cdn-media.chatglm.cn/files/da3f90a9-68a7-4fda-855f-21d97c9fcacb.png?auth_key=1882792047-a675fe2f2e0c4387a40b2273cd80a99e-0-f269d8e5f9c2441b0fd333cc914a352c" 
+                             alt="Tricycle Passager Blanc" class="w-full h-56 tricycle-img-card">
+                        <div class="absolute top-3 right-3 bg-klm-red px-3 py-1 rounded-md">
+                            <span class="text-[10px] font-semibold text-white uppercase tracking-wider">Nouveau</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-medium mb-2">Tricycle Passager Blanc</h3>
+                        <p class="text-sm text-slate-400 font-light leading-relaxed mb-4 tracking-wide">
+                            Parfait pour le transport de personnes. Cabine fermée avec toit, confortable et élégant.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-5">
+                            <span class="text-[10px] px-2 py-1 rounded-md bg-white/5 border border-white/10 text-slate-400 font-light">150cc</span>
+                            <span class="text-[10px] px-2 py-1 rounded-md bg-white/5 border border-white/10 text-slate-400 font-light">6 places</span>
+                            <span class="text-[10px] px-2 py-1 rounded-md bg-white/5 border border-white/10 text-slate-400 font-light">Cabine fermée</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-xs text-slate-500 font-light">À partir de</span>
+                                <div class="text-xl font-bold text-klm-green">750 000 <span class="text-sm font-light text-slate-500">FCFA</span></div>
+                            </div>
+                            <a href="#contact" class="btn-primary text-xs font-medium px-4 py-2 rounded-lg text-white">Commander</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Model 3 — Tricycle BLEU (livraison) -->
+                <div class="reveal glass-card rounded-2xl overflow-hidden" style="transition-delay: 300ms;">
+                    <div class="relative overflow-hidden" style="background: linear-gradient(145deg, rgba(59,130,246,0.06), rgba(2,6,23,0.95));">
+                        <img src="https://z-cdn-media.chatglm.cn/files/f37386be-6c4d-493a-9a9b-ea762cb345fe.jpg?auth_key=1882792047-d3973cad942448cdb278e3df202eec04-0-6281e5a441aee1e745c0c551dc42bc00" 
+                             alt="Tricycle Livraison Bleu" class="w-full h-56 tricycle-img-card">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-medium mb-2">Tricycle Livraison Pro</h3>
+                        <p class="text-sm text-slate-400 font-light leading-relaxed mb-4 tracking-wide">
+                            Conçu pour la livraison urbaine. Caisse spacieuse, compact et maniable dans les ruelles de Cotonou.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-5">
+                            <span class="text-[10px] px-2 py-1 rounded-md bg-white/5 border border-white/10 text-slate-400 font-light">175cc</span>
+                            <span class="text-[10px] px-2 py-1 rounded-md bg-white/5 border border-white/10 text-slate-400 font-light">300kg</span>
+                            <span class="text-[10px] px-2 py-1 rounded-md bg-white/5 border border-white/10 text-slate-400 font-light">Version pro</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-xs text-slate-500 font-light">À partir de</span>
+                                <div class="text-xl font-bold text-klm-green">920 000 <span class="text-sm font-light text-slate-500">FCFA</span></div>
+                            </div>
+                            <a href="#contact" class="btn-primary text-xs font-medium px-4 py-2 rounded-lg text-white">Commander</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ADVANTAGES ==================== -->
+    <section id="avantages" class="py-20 md:py-32 border-t border-white/5 relative overflow-hidden">
+        <div class="glow-red w-[400px] h-[400px] bottom-0 left-0" style="position:absolute;"></div>
+
+        <div class="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
+            <div class="text-center mb-16">
+                <span class="reveal text-xs font-medium text-klm-green tracking-widest uppercase mb-4 block">Pourquoi KLM</span>
+                <h2 class="reveal text-3xl md:text-4xl font-light tracking-tight mb-4" style="transition-delay: 100ms;">
+                    Les avantages <span class="hero-gradient-text font-semibold">KLM Tricycles</span>
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="reveal glass-card rounded-2xl p-8" style="transition-delay: 100ms;">
+                    <div class="w-12 h-12 rounded-xl bg-klm-green/10 border border-klm-green/20 flex items-center justify-center mb-6">
+                        <i data-lucide="tag" class="w-5 h-5 text-green-400"></i>
+                    </div>
+                    <h3 class="text-lg font-medium mb-3">Prix direct usine</h3>
+                    <p class="text-sm text-slate-400 font-light leading-relaxed tracking-wide">
+                        Pas d'intermédiaire. Nous importons directement, vous bénéficiez du meilleur prix au Bénin.
+                    </p>
+                </div>
+
+                <div class="reveal glass-card rounded-2xl p-8" style="transition-delay: 200ms;">
+                    <div class="w-12 h-12 rounded-xl bg-klm-green/10 border border-klm-green/20 flex items-center justify-center mb-6">
+                        <i data-lucide="shield-check" class="w-5 h-5 text-green-400"></i>
+                    </div>
+                    <h3 class="text-lg font-medium mb-3">Garantie 6 mois</h3>
+                    <p class="text-sm text-slate-400 font-light leading-relaxed tracking-wide">
+                        Tous nos tricycles sont garantis 6 mois pièces et main d'œuvre. Roulez l'esprit tranquille.
+                    </p>
+                </div>
+
+                <div class="reveal glass-card rounded-2xl p-8" style="transition-delay: 300ms;">
+                    <div class="w-12 h-12 rounded-xl bg-klm-green/10 border border-klm-green/20 flex items-center justify-center mb-6">
+                        <i data-lucide="truck" class="w-5 h-5 text-green-400"></i>
+                    </div>
+                    <h3 class="text-lg font-medium mb-3">Livraison partout</h3>
+                    <p class="text-sm text-slate-400 font-light leading-relaxed tracking-wide">
+                        Livraison à Cotonou, Porto-Novo, Parakou, Abomey, Bohicon et dans tous les 12 départements.
+                    </p>
+                </div>
+
+                <div class="reveal glass-card rounded-2xl p-8" style="transition-delay: 100ms;">
+                    <div class="w-12 h-12 rounded-xl bg-klm-green/10 border border-klm-green/20 flex items-center justify-center mb-6">
+                        <i data-lucide="wrench" class="w-5 h-5 text-green-400"></i>
+                    </div>
+                    <h3 class="text-lg font-medium mb-3">Pièces détachées</h3>
+                    <p class="text-sm text-slate-400 font-light leading-relaxed tracking-wide">
+                        Stock permanent de pièces détachées à Cotonou. Réparation rapide, pas de longue attente.
+                    </p>
+                </div>
+
+                <div class="reveal glass-card rounded-2xl p-8" style="transition-delay: 200ms;">
+                    <div class="w-12 h-12 rounded-xl bg-klm-green/10 border border-klm-green/20 flex items-center justify-center mb-6">
+                        <i data-lucide="banknote" class="w-5 h-5 text-green-400"></i>
+                    </div>
+                    <h3 class="text-lg font-medium mb-3">Paiement facilité</h3>
+                    <p class="text-sm text-slate-400 font-light leading-relaxed tracking-wide">
+                        Paiement en espèces, Mobile Money (Moov, MTN) ou virement. Facilités de paiement possibles.
+                    </p>
+                </div>
+
+                <div class="reveal glass-card rounded-2xl p-8" style="transition-delay: 300ms;">
+                    <div class="w-12 h-12 rounded-xl bg-klm-green/10 border border-klm-green/20 flex items-center justify-center mb-6">
+                        <i data-lucide="graduation-cap" class="w-5 h-5 text-green-400"></i>
+                    </div>
+                    <h3 class="text-lg font-medium mb-3">Formation offerte</h3>
+                    <p class="text-sm text-slate-400 font-light leading-relaxed tracking-wide">
+                        Conduite et entretien de base inclus. Même si vous n'avez jamais conduit un tricycle.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== GALLERY ==================== -->
+    <section id="galerie" class="py-20 md:py-32 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 md:px-6">
+            <div class="text-center mb-16">
+                <span class="reveal text-xs font-medium text-klm-green tracking-widest uppercase mb-4 block">Galerie</span>
+                <h2 class="reveal text-3xl md:text-4xl font-light tracking-tight mb-4" style="transition-delay: 100ms;">
+                    Nos tricycles en <span class="hero-gradient-text font-semibold">détail</span>
+                </h2>
+                <p class="reveal text-sm text-slate-400 font-light max-w-lg mx-auto tracking-wide" style="transition-delay: 200ms;">
+                    Découvrez la qualité de nos tricycles sous tous les angles.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <!-- Grand — Bleu -->
+                <div class="reveal moto-card rounded-2xl overflow-hidden border border-white/5 col-span-2 md:col-span-1 md:row-span-2" style="transition-delay: 100ms;">
+                    <img src="https://z-cdn-media.chatglm.cn/files/f37386be-6c4d-493a-9a9b-ea762cb345fe.jpg?auth_key=1882792047-d3973cad942448cdb278e3df202eec04-0-6281e5a441aee1e745c0c551dc42bc00" 
+                         alt="Tricycle cargo bleu — vue complète" class="w-full h-full object-contain min-h-[200px] md:min-h-0 tricycle-img-gallery">
+                </div>
+                <!-- Blanc 1 -->
+                <div class="reveal moto-card rounded-2xl overflow-hidden border border-white/5" style="transition-delay: 150ms;">
+                    <img src="https://z-cdn-media.chatglm.cn/files/da3f90a9-68a7-4fda-855f-21d97c9fcacb.png?auth_key=1882792047-a675fe2f2e0c4387a40b2273cd80a99e-0-f269d8e5f9c2441b0fd333cc914a352c" 
+                         alt="Tricycle blanc — face avant" class="w-full h-48 object-contain tricycle-img-gallery">
+                </div>
+                <!-- Bleu 2 -->
+                <div class="reveal moto-card rounded-2xl overflow-hidden border border-white/5" style="transition-delay: 200ms;">
+                    <img src="https://z-cdn-media.chatglm.cn/files/f37386be-6c4d-493a-9a9b-ea762cb345fe.jpg?auth_key=1882792047-d3973cad942448cdb278e3df202eec04-0-6281e5a441aee1e745c0c551dc42bc00" 
+                         alt="Tricycle bleu — profil" class="w-full h-48 object-contain tricycle-img-gallery">
+                </div>
+                <!-- Blanc 2 -->
+                <div class="reveal moto-card rounded-2xl overflow-hidden border border-white/5" style="transition-delay: 250ms;">
+                    <img src="https://z-cdn-media.chatglm.cn/files/da3f90a9-68a7-4fda-855f-21d97c9fcacb.png?auth_key=1882792047-a675fe2f2e0c4387a40b2273cd80a99e-0-f269d8e5f9c2441b0fd333cc914a352c" 
+                         alt="Tricycle blanc — détail cabine" class="w-full h-48 object-contain tricycle-img-gallery">
+                </div>
+                <!-- Bleu 3 -->
+                <div class="reveal moto-card rounded-2xl overflow-hidden border border-white/5" style="transition-delay: 300ms;">
+                    <img src="https://z-cdn-media.chatglm.cn/files/f37386be-6c4d-493a-9a9b-ea762cb345fe.jpg?auth_key=1882792047-d3973cad942448cdb278e3df202eec04-0-6281e5a441aee1e745c0c551dc42bc00" 
+                         alt="Tricycle bleu — arrière" class="w-full h-48 object-contain tricycle-img-gallery">
+                </div>
+                <!-- Large — Blanc -->
+                <div class="reveal moto-card rounded-2xl overflow-hidden border border-white/5 col-span-2 md:col-span-1" style="transition-delay: 350ms;">
+                    <img src="https://z-cdn-media.chatglm.cn/files/da3f90a9-68a7-4fda-855f-21d97c9fcacb.png?auth_key=1882792047-a675fe2f2e0c4387a40b2273cd80a99e-0-f269d8e5f9c2441b0fd333cc914a352c" 
+                         alt="Tricycle blanc — vue panoramique" class="w-full h-48 object-contain tricycle-img-gallery">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ABOUT ==================== -->
+    <section id="apropos" class="py-20 md:py-32 border-t border-white/5 relative overflow-hidden">
+        <div class="glow-green w-[500px] h-[500px] top-1/2 right-0 -translate-y-1/2" style="position:absolute;"></div>
+
+        <div class="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Image side — split avec les 2 tricycles -->
+                <div class="reveal grid grid-cols-2 gap-4" style="transition-delay: 100ms;">
+                    <div class="rounded-2xl border border-white/5 overflow-hidden" style="background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(2,6,23,0.9));">
+                        <img src="https://z-cdn-media.chatglm.cn/files/da3f90a9-68a7-4fda-855f-21d97c9fcacb.png?auth_key=1882792047-a675fe2f2e0c4387a40b2273cd80a99e-0-f269d8e5f9c2441b0fd333cc914a352c" 
+                             alt="Tricycle blanc KLM" class="w-full h-48 md:h-56 object-contain p-4" style="filter: drop-shadow(0 8px 20px rgba(0,0,0,0.4));">
+                    </div>
+                    <div class="rounded-2xl border border-white/5 overflow-hidden mt-8" style="background: linear-gradient(145deg, rgba(59,130,246,0.05), rgba(2,6,23,0.9));">
+                        <img src="https://z-cdn-media.chatglm.cn/files/f37386be-6c4d-493a-9a9b-ea762cb345fe.jpg?auth_key=1882792047-d3973cad942448cdb278e3df202eec04-0-6281e5a441aee1e745c0c551dc42bc00" 
+                             alt="Tricycle bleu KLM" class="w-full h-48 md:h-56 object-contain p-4" style="filter: drop-shadow(0 8px 20px rgba(0,0,0,0.4));">
+                    </div>
+                </div>
+
+                <div>
+                    <span class="reveal text-xs font-medium text-klm-green tracking-widest uppercase mb-4 block">À propos de KLM</span>
+                    <h2 class="reveal text-3xl md:text-4xl font-light tracking-tight mb-6" style="transition-delay: 100ms;">
+                        Le spécialiste <span class="hero-gradient-text font-semibold">tricycle</span> au Bénin depuis 2019
+                    </h2>
+                    <p class="reveal text-sm text-slate-400 font-light leading-relaxed tracking-wide mb-6" style="transition-delay: 200ms;">
+                        KLM Tricycles est né d'une conviction simple : le tricycle est le moyen de transport le plus adapté 
+                        aux réalités béninoises. Accessible, économique et polyvalent, il permet à des milliers de personnes 
+                        de gagner dignement leur vie.
+                    </p>
+                    <p class="reveal text-sm text-slate-400 font-light leading-relaxed tracking-wide mb-8" style="transition-delay: 300ms;">
+                        Basés à Cotonou, nous sélectionnons rigoureusement chaque modèle auprès de fabricants partenaires 
+                        pour garantir qualité et durabilité. Notre atelier de maintenance assure un suivi après-vente sérieux.
+                    </p>
+
+                    <div class="reveal grid grid-cols-2 gap-5" style="transition-delay: 400ms;">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-klm-green/10 border border-klm-green/20 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="check" class="w-4 h-4 text-green-400"></i>
+                            </div>
+                            <span class="text-sm font-light text-slate-300">Import direct</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-klm-green/10 border border-klm-green/20 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="check" class="w-4 h-4 text-green-400"></i>
+                            </div>
+                            <span class="text-sm font-light text-slate-300">Contrôle qualité</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-klm-green/10 border border-klm-green/20 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="check" class="w-4 h-4 text-green-400"></i>
+                            </div>
+                            <span class="text-sm font-light text-slate-300">Atelier propre</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-klm-green/10 border border-klm-green/20 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="check" class="w-4 h-4 text-green-400"></i>
+                            </div>
+                            <span class="text-sm font-light text-slate-300">SAV réactif</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== TESTIMONIALS ==================== -->
+    <section class="py-20 md:py-32 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 md:px-6">
+            <div class="text-center mb-16">
+                <span class="reveal text-xs font-medium text-klm-green tracking-widest uppercase mb-4 block">Témoignages</span>
+                <h2 class="reveal text-3xl md:text-4xl font-light tracking-tight mb-4" style="transition-delay: 100ms;">
+                    Ce que disent nos <span class="hero-gradient-text font-semibold">clients</span>
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="reveal glass-card rounded-2xl p-8" style="transition-delay: 100ms;">
+                    <div class="flex gap-1 mb-5">
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                    </div>
+                    <p class="text-sm text-slate-300 font-light leading-relaxed mb-6 tracking-wide">
+                        "J'ai acheté mon tricycle cargo bleu chez KLM il y a 8 mois. Il tourne tous les jours à Dantokpa sans problème. 
+                        Le SAV est top, ils ont toujours les pièces."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-klm-green/10 border border-klm-green/20 flex items-center justify-center text-xs font-semibold text-green-400">
+                            YA
+                        </div>
+                        <div>
+                            <div class="text-sm font-medium">Yacoubou Adissi</div>
+                            <div class="text-xs text-slate-500 font-light">Transporteur — Dantokpa, Cotonou</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal glass-card rounded-2xl p-8" style="transition-delay: 200ms;">
+                    <div class="flex gap-1 mb-5">
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                    </div>
+                    <p class="text-sm text-slate-300 font-light leading-relaxed mb-6 tracking-wide">
+                        "Le tricycle blanc me permet de scolariser mes enfants. Je gagne bien ma vie grâce à KLM. 
+                        Merci pour les facilités de paiement !"
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-klm-green/10 border border-klm-green/20 flex items-center justify-center text-xs font-semibold text-green-400">
+                            AF
+                        </div>
+                        <div>
+                            <div class="text-sm font-medium">Aminata Fafoum</div>
+                            <div class="text-xs text-slate-500 font-light">Conductrice — Calavi, Bénin</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal glass-card rounded-2xl p-8" style="transition-delay: 300ms;">
+                    <div class="flex gap-1 mb-5">
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                    </div>
+                    <p class="text-sm text-slate-300 font-light leading-relaxed mb-6 tracking-wide">
+                        "Nous avons commandé 10 tricycles bleus pour notre entreprise de livraison. KLM a livré à Parakou 
+                        dans les délais. Professionnel et fiable."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-klm-green/10 border border-klm-green/20 flex items-center justify-center text-xs font-semibold text-green-400">
+                            KH
+                        </div>
+                        <div>
+                            <div class="text-sm font-medium">Kofi Houéssou</div>
+                            <div class="text-xs text-slate-500 font-light">Gérant — Express Livraison, Parakou</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CTA BANNER ==================== -->
+    <section class="py-16 border-t border-white/5 relative overflow-hidden">
+        <div class="glow-green w-[500px] h-[300px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style="position:absolute;"></div>
+        <div class="max-w-4xl mx-auto px-4 md:px-6 relative z-10 text-center">
+            <div class="reveal glass-card rounded-2xl p-10 md:p-16" style="border-color: rgba(27, 140, 58, 0.15);">
+                <h2 class="text-2xl md:text-3xl font-light tracking-tight mb-4">
+                    Prêt à <span class="hero-gradient-text font-semibold">démarrer</span> votre activité ?
+                </h2>
+                <p class="text-sm text-slate-400 font-light max-w-md mx-auto mb-8 tracking-wide">
+                    Contactez-nous dès maintenant. Devis gratuit, réponse sous 2h. 
+                    Facilités de paiement disponibles.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#contact" class="btn-primary text-sm font-medium px-8 py-3 rounded-lg text-white inline-flex items-center gap-2">
+                        <i data-lucide="message-circle" class="w-4 h-4"></i>
+                        Demander un devis
+                    </a>
+                    <a href="https://wa.me/22990000000" target="_blank" class="text-sm font-medium px-8 py-3 rounded-lg text-green-400 inline-flex items-center gap-2 transition-all hover:bg-green-500/10"
+                       style="border: 1px solid rgba(27, 140, 58, 0.2);">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CONTACT ==================== -->
+    <section id="contact" class="py-20 md:py-32 border-t border-white/5 relative overflow-hidden">
+        <div class="glow-green w-[500px] h-[500px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style="position:absolute;"></div>
+
+        <div class="max-w-5xl mx-auto px-4 md:px-6 relative z-10">
+            <div class="text-center mb-12">
+                <span class="reveal text-xs font-medium text-klm-green tracking-widest uppercase mb-4 block">Contact</span>
+                <h2 class="reveal text-3xl md:text-4xl font-light tracking-tight mb-4" style="transition-delay: 100ms;">
+                    Contactez-<span class="hero-gradient-text font-semibold">nous</span>
+                </h2>
+                <p class="reveal text-sm text-slate-400 font-light max-w-md mx-auto tracking-wide" style="transition-delay: 200ms;">
+                    Remplissez le formulaire ou contactez-nous directement. Réponse garantie sous 2h.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-5 gap-10">
+                <!-- Contact Info -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="reveal glass-card rounded-xl p-5 flex items-start gap-4" style="transition-delay: 100ms;">
+                        <div class="w-10 h-10 rounded-lg bg-klm-green/10 border border-klm-green/20 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-green-400"></i>
+                        </div>
+                        <div>
+                            <div class="text-sm font-medium mb-1">Adresse</div>
+                            <div class="text-sm text-slate-400 font-light leading-relaxed">Cotonou, Bénin<br>Near Dantokpa Market</div>
+                        </div>
+                    </div>
+
+                    <div class="reveal glass-card rounded-xl p-5 flex items-start gap-4" style="transition-delay: 200ms;">
+                        <div class="w-10 h-10 rounded-lg bg-klm-green/10 border border-klm-green/20 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="phone" class="w-5 h-5 text-green-400"></i>
+                        </div>
+                        <div>
+                            <div class="text-sm font-medium mb-1">Téléphone</div>
+                            <div class="text-sm text-slate-400 font-light">+229 90 00 00 00</div>
+                            <div class="text-sm text-slate-400 font-light">+229 01 00 00 00</div>
+                        </div>
+                    </div>
+
+                    <div class="reveal glass-card rounded-xl p-5 flex items-start gap-4" style="transition-delay: 300ms;">
+                        <div class="w-10 h-10 rounded-lg bg-klm-green/10 border border-klm-green/20 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-green-400" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        </div>
+                        <div>
+                            <div class="text-sm font-medium mb-1">WhatsApp</div>
+                            <div class="text-sm text-slate-400 font-light">+229 90 00 00 00</div>
+                            <div class="text-xs text-slate-600 font-light mt-1">Disponible 7j/7</div>
+                        </div>
+                    </div>
+
+                    <div class="reveal glass-card rounded-xl p-5 flex items-start gap-4" style="transition-delay: 400ms;">
+                        <div class="w-10 h-10 rounded-lg bg-klm-green/10 border border-klm-green/20 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="clock" class="w-5 h-5 text-green-400"></i>
+                        </div>
+                        <div>
+                            <div class="text-sm font-medium mb-1">Horaires</div>
+                            <div class="text-sm text-slate-400 font-light">Lun — Sam : 8h — 18h</div>
+                            <div class="text-sm text-slate-400 font-light">Dimanche : 9h — 14h</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <form id="contactForm" class="reveal lg:col-span-3 space-y-5" style="transition-delay: 200ms;">
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs text-slate-500 font-medium tracking-wider uppercase mb-2">Nom complet</label>
+                            <input type="text" required placeholder="Kofi Mensah"
+                                   class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-light text-white placeholder-slate-600 focus:outline-none focus:border-klm-green/50 focus:ring-1 focus:ring-klm-green/30 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-500 font-medium tracking-wider uppercase mb-2">Téléphone</label>
+                            <input type="tel" required placeholder="+229 90 00 00 00"
+                                   class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-light text-white placeholder-slate-600 focus:outline-none focus:border-klm-green/50 focus:ring-1 focus:ring-klm-green/30 transition-all">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-slate-500 font-medium tracking-wider uppercase mb-2">Ville / Département</label>
+                        <select class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-light text-slate-400 focus:outline-none focus:border-klm-green/50 focus:ring-1 focus:ring-klm-green/30 transition-all appearance-none"
+                                style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%2364748b%22 stroke-width=%222%22><polyline points=%226 9 12 15 18 9%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center;">
+                            <option value="" disabled selected>Choisir votre localisation</option>
+                            <option value="cotonou">Cotonou</option>
+                            <option value="porto-novo">Porto-Novo</option>
+                            <option value="parakou">Parakou</option>
+                            <option value="abomey">Abomey</option>
+                            <option value="bohicon">Bohicon</option>
+                            <option value="kandi">Kandi</option>
+                            <option value="natitingou">Natitingou</option>
+                            <option value="loko">Lokossa</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-slate-500 font-medium tracking-wider uppercase mb-2">Modèle souhaité</label>
+                        <select class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-light text-slate-400 focus:outline-none focus:border-klm-green/50 focus:ring-1 focus:ring-klm-green/30 transition-all appearance-none"
+                                style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%2364748b%22 stroke-width=%222%22><polyline points=%226 9 12 15 18 9%22/></svg>'); background-repeat: no-repeat; background-position: right 1rem center;">
+                            <option value="" disabled selected>Choisir un modèle</option>
+                            <option value="cargo-bleu">Tricycle Cargo Bleu — 850 000 FCFA</option>
+                            <option value="passager-blanc">Tricycle Passager Blanc — 750 000 FCFA</option>
+                            <option value="livraison-pro">Tricycle Livraison Pro — 920 000 FCFA</option>
+                            <option value="pas-sure">Pas encore sûr</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-slate-500 font-medium tracking-wider uppercase mb-2">Message</label>
+                        <textarea rows="4" placeholder="Précisez votre besoin, vos questions..."
+                                  class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-light text-white placeholder-slate-600 focus:outline-none focus:border-klm-green/50 focus:ring-1 focus:ring-klm-green/30 transition-all resize-none"></textarea>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" class="btn-primary text-sm font-medium px-10 py-3.5 rounded-lg text-white inline-flex items-center gap-2 w-full md:w-auto justify-center">
+                            <i data-lucide="send" class="w-4 h-4"></i>
+                            Envoyer ma demande
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="border-t border-white/5 pt-12 pb-8">
+        <div class="max-w-7xl mx-auto px-4 md:px-6">
+            <div class="grid md:grid-cols-4 gap-10 mb-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-klm-green/10 border border-klm-green/30 flex items-center justify-center"
+                             style="box-shadow: 0 0 12px rgba(27, 140, 58, 0.4);">
+                            <span class="text-klm-green font-extrabold text-lg tracking-tight">K</span>
+                            <span class="text-white font-extrabold text-lg tracking-tight">LM</span>
+                        </div>
+                        <div>
+                            <span class="text-sm font-semibold tracking-wide text-white">KLM Tricycles</span>
+                            <span class="text-[10px] text-slate-500 block -mt-0.5 tracking-widest uppercase">Cotonou, Bénin</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-slate-500 font-light leading-relaxed max-w-sm tracking-wide mb-6">
+                        Votre partenaire de confiance pour l'achat de tricycles au Bénin. 
+                        Qualité, prix et service après-vente.
+                    </p>
+                    <div class="flex gap-3">
+                        <a href="#" class="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-klm-green/10 hover:border-klm-green/30 transition-all">
+                            <svg class="w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-klm-green/10 hover:border-klm-green/30 transition-all">
+                            <svg class="w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                        </a>
+                        <a href="https://wa.me/22990000000" target="_blank" class="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-green-500/10 hover:border-green-500/30 transition-all">
+                            <svg class="w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-medium text-slate-400 tracking-widest uppercase mb-5">Navigation</h4>
+                    <div class="flex flex-col gap-3">
+                        <a href="#modeles" class="text-sm text-slate-500 font-light hover:text-green-400 transition-colors">Nos modèles</a>
+                        <a href="#avantages" class="text-sm text-slate-500 font-light hover:text-green-400 transition-colors">Avantages</a>
+                        <a href="#galerie" class="text-sm text-slate-500 font-light hover:text-green-400 transition-colors">Galerie</a>
+                        <a href="#apropos" class="text-sm text-slate-500 font-light hover:text-green-400 transition-colors">À propos</a>
+                        <a href="#contact" class="text-sm text-slate-500 font-light hover:text-green-400 transition-colors">Contact</a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-medium text-slate-400 tracking-widest uppercase mb-5">Modèles</h4>
+                    <div class="flex flex-col gap-3">
+                        <a href="#modeles" class="text-sm text-slate-500 font-light hover:text-green-400 transition-colors">Cargo Bleu 200cc</a>
+                        <a href="#modeles" class="text-sm text-slate-500 font-light hover:text-green-400 transition-colors">Passager Blanc 150cc</a>
+                        <a href="#modeles" class="text-sm text-slate-500 font-light hover:text-green-400 transition-colors">Livraison Pro 175cc</a>
+                        <a href="#contact" class="text-sm text-slate-500 font-light hover:text-green-400 transition-colors">Commande groupée</a>
+                        <a href="#contact" class="text-sm text-slate-500 font-light hover:text-green-400 transition-colors">Pièces détachées</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="benin-stripe h-0.5 rounded-full mb-8 opacity-30"></div>
+
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-xs text-slate-600 font-light tracking-wide">
+                    © 2024 KLM Tricycles. Tous droits réservés — Cotonou, Bénin
+                </p>
+                <div class="flex items-center gap-2 text-xs text-slate-600 font-light">
+                    <span>Fait avec</span>
+                    <i data-lucide="heart" class="w-3 h-3 text-klm-red fill-klm-red"></i>
+                    <span>au Bénin 🇧🇯</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- TOAST -->
+    <div id="toast" class="toast">
+        <div class="flex items-center gap-2">
+            <i data-lucide="check-circle" class="w-4 h-4"></i>
+            <span>Demande envoyée ! Nous vous recontactons sous 2h.</span>
+        </div>
+    </div>
+
+    <!-- FLOATING WHATSAPP -->
+    <a href="https://wa.me/22990000000?text=Bonjour%20KLM%20Tricycles%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20vos%20tricycles." 
+       target="_blank"
+       class="fixed bottom-6 left-6 z-50 w-14 h-14 rounded-full bg-green-500 flex items-center justify-center shadow-lg hover:bg-green-600 transition-all hover:scale-110"
+       style="box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4);">
+        <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+
+    <script>
+        lucide.createIcons();
+
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        let menuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            menuOpen = !menuOpen;
+            mobileMenu.classList.toggle('open', menuOpen);
+        });
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuOpen = false;
+                mobileMenu.classList.remove('open');
+            });
+        });
+
+        const revealElements = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal-visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        revealElements.forEach(el => observer.observe(el));
+
+        const contactForm = document.getElementById('contactForm');
+        const toast = document.getElementById('toast');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            toast.classList.add('show');
+            contactForm.reset();
+            setTimeout(() => { toast.classList.remove('show'); }, 4000);
+        });
+
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            nav.style.borderBottomColor = window.scrollY > 20 
+                ? 'rgba(27, 140, 58, 0.15)' 
+                : 'rgba(255, 255, 255, 0.05)';
+        });
+    </script>
+</body>
+</html>
